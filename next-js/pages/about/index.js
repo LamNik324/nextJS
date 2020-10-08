@@ -1,16 +1,24 @@
-import Router from 'next/router'
+import Router from "next/router";
+import { MainLayout } from "../../components/MainLayout";
 
-export default function About() {
-
+export default function About({title}) {
   const linkClickHandler = () => {
-     Router.push('/')
-  }
+    Router.push("/");
+  };
 
   return (
-    <>
-    <h1>About Page</h1>
-    <button onClick={linkClickHandler}>Go back to home</button>
-    <button onClick={() => Router.push('/posts')}>Go to posts</button>
-    </>
-  )
+    <MainLayout title="About Page">
+      <h1>{title}</h1>
+      <button onClick={linkClickHandler}>Go back to home</button>
+      <button onClick={() => Router.push("/posts")}>Go to posts</button>
+    </MainLayout>
+  );
+}
+
+About.getInitialProps = async () => {
+ const response = await fetch('http://localhost:9000/about')
+ const data = await response.json();
+ return {
+   title: data.title
+ }
 }
